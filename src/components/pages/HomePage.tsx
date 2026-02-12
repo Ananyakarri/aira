@@ -7,10 +7,25 @@ import { AppFeatures } from '@/entities';
 import { Image } from '@/components/ui/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useNavigate } from "react-router-dom";
+import { isAuthenticated } from "@/lib/auth";
+
+
 
 export default function HomePage() {
   const [features, setFeatures] = useState<AppFeatures[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const navigate = useNavigate();
+
+const handleDashboardClick = () => {
+  if (isAuthenticated()) {
+    navigate("/dashboard");
+  } else {
+    navigate("/login");
+  }
+};
+
 
   useEffect(() => {
     loadFeatures();
@@ -244,12 +259,12 @@ export default function HomePage() {
             Ready to Get Started?
           </h2>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              to="/dashboard"
+            <button
+              onClick={handleDashboardClick}
               className="inline-flex items-center justify-center px-10 py-4 bg-primary text-white font-heading uppercase text-sm tracking-wide rounded-lg hover:bg-primary/90 transition-colors"
             >
               View Dashboard
-            </Link>
+            </button>
             <Link
               to="/doctors"
               className="inline-flex items-center justify-center px-10 py-4 border-2 border-secondary text-secondary font-heading uppercase text-sm tracking-wide rounded-lg hover:bg-secondary hover:text-white transition-colors"

@@ -2,6 +2,7 @@ import { MemberProvider } from '@/integrations';
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
 import { ScrollToTop } from '@/lib/scroll-to-top';
 import ErrorPage from '@/integrations/errorHandlers/ErrorPage';
+
 import HomePage from '@/components/pages/HomePage';
 import DashboardPage from '@/components/pages/DashboardPage';
 import AIChatPage from '@/components/pages/AIChatPage';
@@ -10,7 +11,10 @@ import FeaturesPage from '@/components/pages/FeaturesPage';
 import ResourcesPage from '@/components/pages/ResourcesPage';
 import ContactPage from '@/components/pages/ContactPage';
 
-// Layout component that includes ScrollToTop
+import RegisterPage from '@/components/pages/RegisterPage';
+import LoginPage from '@/components/pages/LoginPage';
+import ProtectedRoute from '@/components/ProtectedRoute';
+
 function Layout() {
   return (
     <>
@@ -26,60 +30,55 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
-      {
-        index: true,
-        element: <HomePage />,
-        routeMetadata: {
-          pageIdentifier: 'home',
-        },
-      },
-      {
-        path: "dashboard",
-        element: <DashboardPage />,
-        routeMetadata: {
-          pageIdentifier: 'dashboard',
-        },
-      },
-      {
-        path: "ai-chat",
-        element: <AIChatPage />,
-        routeMetadata: {
-          pageIdentifier: 'ai-chat',
-        },
-      },
-      {
-        path: "doctors",
-        element: <DoctorsPage />,
-        routeMetadata: {
-          pageIdentifier: 'doctors',
-        },
-      },
-      {
-        path: "features",
-        element: <FeaturesPage />,
-        routeMetadata: {
-          pageIdentifier: 'features',
-        },
-      },
-      {
-        path: "resources",
-        element: <ResourcesPage />,
-        routeMetadata: {
-          pageIdentifier: 'resources',
-        },
-      },
-      {
-        path: "contact",
-        element: <ContactPage />,
-        routeMetadata: {
-          pageIdentifier: 'contact',
-        },
-      },
-      {
-        path: "*",
-        element: <Navigate to="/" replace />,
-      },
-    ],
+  {
+    index: true,
+    element: <HomePage />,
+  },
+
+  {
+    path: "register",
+    element: <RegisterPage />,
+  },
+
+  {
+    path: "login",
+    element: <LoginPage />,
+  },
+
+  {
+    path: "dashboard",
+    element: (
+      <ProtectedRoute>
+        <DashboardPage />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "ai-chat",
+    element: <AIChatPage />,
+  },
+  {
+    path: "doctors",
+    element: <DoctorsPage />,
+  },
+  {
+    path: "features",
+    element: <FeaturesPage />,
+  },
+  {
+    path: "resources",
+    element: <ResourcesPage />,
+  },
+  {
+    path: "contact",
+    element: <ContactPage />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
+  },
+],
   },
 ], {
   basename: import.meta.env.BASE_NAME,
